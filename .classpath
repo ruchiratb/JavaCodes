@@ -3,5 +3,18 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Ruchira/Downloads/ch.qos.logback.classic-0.9.28.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruchira/Downloads/slf4j-api-1.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruchira/Downloads/slf4j-simple-1.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruchira/Downloads/antx-autoconfig-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruchira/Downloads/trove-3.0.0a1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruchira/Downloads/collections-generic-4.01.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruchira/Downloads/jcodec-0.1.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruchira/Downloads/jcodec-0.1.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruchira/Downloads/jcodec-0.1.6-3-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruchira/Downloads/ch.qos.logback.core-0.9.28.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruchira/Downloads/xuggle-xuggler-5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruchira/Downloads/logback-classic-1.0.13.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruchira/Downloads/logback-core-1.0.13.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

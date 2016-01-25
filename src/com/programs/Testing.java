@@ -1,18 +1,17 @@
 package com.programs;
 
+import java.math.*;
+import java.util.Random;
+
 public class Testing {
 
 	public static void main(String[] args) throws InterruptedException {
 		System.out.println(System.currentTimeMillis());
 		System.out.println(System.currentTimeMillis());
+		Random rand = new Random();
+		System.out.println(rand.nextGaussian());
 
 	}
-	public void count (int a, int b){
-		System.out.println("fff");
-	}
-	public int count (float a, int b){
-		System.out.println("ggg");
-		return 0;
-	}
+	
 
 }
