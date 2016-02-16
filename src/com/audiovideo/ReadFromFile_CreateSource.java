@@ -1,9 +1,11 @@
 package com.audiovideo;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
+import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
@@ -11,7 +13,9 @@ import javax.imageio.ImageIO;
 import java.nio.file.Path;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -19,57 +23,61 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 
-public class BytesFromFile {
+public class ReadFromFile_CreateSource {
 	
 	public static void main(String[] args) throws IOException {
-//		fromFile();
-		Path path = Paths.get("E:\\videocoding\\yuv\\randomsource.yuv");
-		byte[] data = readBytesFromImage(path);
-		System.out.println("Length = "+data.length);
-		StringBuilder builder = new StringBuilder();
+//		sourceToTextFile();
+		
+//		frame size of yuv is WIDTH X HEIGHT X 1.5
+//		WIDTH = 352, HEIGHT = 288
+		@SuppressWarnings("resource")
+		Scanner sc = new Scanner(new FileInputStream("E:\\videocoding\\yuvdata.txt"));
+//		BufferedInputStream buffer = 
+		
+		byte[] data = new byte[760320];
 		for (int i = 0; i < data.length; i++) {
-			if (i%64 == 0) {
-				System.out.println(builder.toString());
-				builder.setLength(0);
-				builder.append(data[i]+" ");
-			} else {
-				builder.append(data[i]+" ");
-			}
+			data[i] = (byte) Integer.parseInt(sc.nextLine());
 		}
-		int framesize = 352*144*3;
-		byte[] randomdata = Files.readAllBytes(path);
-		byteToSource(randomdata);
+		byteToSource(data);
 
 	}
-	
-	private static void fromFile() throws IOException{
-		Path path = Paths.get("E:\\7th sem\\my stuff\\Project\\FYP\\video\\stefan_cif.yuv");
+
+	private static void sourceToTextFile() throws IOException{
+		Path path = Paths.get("E:\\videocoding\\yuv\\stefan.yuv");
 		byte[] data = Files.readAllBytes(path);
-		int bytes_per_frame = 288*352;
-		System.out.println("no of bytes = "+data.length);
-		System.out.println("no of frames = "+data.length/bytes_per_frame);
-//		for (int i = 0; i < data.length; i++) {
-//			System.out.print(data[i]+" ");
-//		}
+		
+		System.out.println("data length ="+data.length);
+		
+		for (int i = 0; i < 760320; i++) {
+			try(
+					PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("E:\\videocoding\\yuvdata.txt", true)))) {
+//				System.out.println("appending....");
+				out.println(data[i]);
+			}catch (IOException e) {
+				e.printStackTrace();
+			}			
+		}
+		
+		System.out.println("Done..");
 		
 	}
 	
 	private static void byteToSource(byte[] data){
 		System.out.println("data length ="+data.length);
-		int trimmed = 352*144*3*5;
 		
 		DataOutputStream out=null;
 //		DataInputStream in=null;
 		try {
-			out = new DataOutputStream(new FileOutputStream("E:\\videocoding\\yuv\\randomsource.yuv"));
+			out = new DataOutputStream(new FileOutputStream("E:\\videocoding\\randomsource2.yuv"));
 //			in = new DataInputStream(new FileInputStream("data.in"));				
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 				
-		for (int i = 0; i < trimmed; i++) {
+		for (int i = 0; i < data.length; i++) {
 			byte l=data[i];		
 			
 			try {
@@ -92,52 +100,7 @@ public class BytesFromFile {
 		
 		System.out.println("Done..");
 	}
-	
-	private static byte[] readBytes(Path path) throws IOException{
 
-		int length = Files.readAllBytes(path).length;
-		int bytes_per_frame = 288*352;
-		int total_frames = length/bytes_per_frame;
-		      FileInputStream fis = null;
-		      int i = 0;
-		      char c;
-		      byte[] bs = new byte[bytes_per_frame];
-		         // create new file input stream
-		         fis = new FileInputStream("E:\\videocoding\\yuv\\stefan.yuv");
-		      
-		      try{
-		         for (int j = 0; j < total_frames; j++) {
-		        	 // read bytes to the buffer
-		        	 i=fis.read(bs);
-		        	 
-		        	 // prints
-		        	 System.out.println("\nframe number = "+j);
-		        	 System.out.println("Number of bytes read: "+i);
-		        	 System.out.print("Bytes read: ");
-		        	 
-		        	 // for each byte in buffer
-		        	 for(byte b:bs)
-		        	 {
-		        		 
-		        		 // converts byte to character
-		        		 c=(char)b;
-		        		 
-		        		 // print
-//		        		 System.out.print(c);
-		        	 }  
-//					createImage(bs, "Image"+j);
-				}
-		      }catch(Exception ex){
-		         // if any error occurs
-		         ex.printStackTrace();
-		      }finally{
-		         
-		         // releases all system resources from the streams
-		         if(fis!=null)
-		            fis.close();
-		      }
-		  return bs;
-	}
 	
 	private static byte[] readBytesFromImage(Path path) throws IOException{
 
@@ -177,21 +140,6 @@ public class BytesFromFile {
 		  return bs;
 	}
 	
-	public static void rawToJpeg(byte[] bytes, String path) {
-	    try {
-		    	File outputFile = new File(path);
-		    	/*System.out.println(outputFile.exists());
-		    	BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
-		    	 img = ImageIO.read(new ByteArrayInputStream(bytes));
-		        ImageIO.write(img, "png", outputFile);*/
-	    	BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
-	    	ImageIO.write(image, "jpg", outputFile);
-			
-	    } catch (IOException e) {
-	        // Handle exception
-	    }
-	}
-	
 	public static void StreamBuilder(byte[] data) {
 		int data_length=data.length;		
 		
@@ -227,17 +175,6 @@ public class BytesFromFile {
 		}
 		
 		System.out.println("Done..");
-	}
-	
-	private static void createImage(byte[] bytes, String name) throws IOException{
-		OutputStream out = null;
-		String path = "E:\\videocoding\\"+name+".jpg";
-		try {
-	    out = new BufferedOutputStream(new FileOutputStream(path));
-	    out.write(bytes);
-		} finally {
-	    if (out != null) out.close();
-		}
 	}
 	
 }
